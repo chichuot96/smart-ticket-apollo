@@ -1,63 +1,256 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Document</title>
+    <style>
+        body{
+            background-image: url("https://d31v04zdn5vmni.cloudfront.net/blog/wp-content/uploads/2018/03/ultimate-guide-to-background-images-in-email.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        form{
+            margin-top: 100px;
+        }
+        .card-body{
+            margin: auto;
+            display: flex;
+        }
+        .card-footer{
+            text-align: right;
+            background: transparent;
+        }
+        .flex_form_left, .flex_form_right{
+            width: 50%;
+            padding: 16px;
+            margin: 32px;
+            margin-top: 5px;
+        }
+        .inf{
+            display: flex;
+            flex-direction: column;
+        }
+        @media (max-width: 970px){
+            .card-body{
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .flex_form_left, .flex_form_right{
+                width: 100%;
+                padding: 16px;
+                margin: 32px;
+                margin-top: 5px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Member register</h1>
-    <form action="/members/register" method="post">
-        <div>
-            Username <input type="text" name="username">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="opacity: 0.8">
+    <div class="container">
+        <a class="navbar-brand" href="/">Smart Ticket</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Gõ để tìm kiếm" aria-label="Search">
+                <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Tìm</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Các sự kiện
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="#">Gần bạn</a>
+                        <a class="dropdown-item" href="#">Bạn đã tham gia</a>
+                        <a class="dropdown-item" href="#">Có thể bạn hứng thú</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Phân loại
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="/event/typeEvent?type=Music">Hòa nhạc</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Film">Xem phim</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Exhibition">Triển lãm</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Seminor">Hội thảo</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Other">Khác ...</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Liên hệ</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/members/login" class="btn btn-info" role="button">Đăng nhập</a>
+                    <a href="/members/register" class="btn btn-outline-info btn-sm">Đăng ký</a>
+                </li>
+            </ul>
         </div>
-        <div>
-            Pass <input type="password" name="password">
-        </div>
-        <div>
-            Confirm Pass <input type="password" name="confirmPassword">
-        </div>
-        <div>
-            Fullname <input type="text" name="fullName">
-        </div>
-        <div>
-            AvatarUrl <input type="text" name="avatarUrl">
-            <input type="file" name="image">
-            <img src="" alt="" id="image-preview" style="width: 100px">
-        </div>
-        <div>
-            <input type="submit" value="Submit">
-            <input type="reset" value="Reset">
+    </div>
+</nav>
+
+<div class= "container" style="margin-bottom: 2em" >
+    <form action="/members/register" method="post" id="login" onsubmit="event.preventDefault(); validateMyForm();">
+        <div class="card" data-aos="fade-up" data-aos-duration="1500" style="color: white; background-color: rgba(0,0,0,0.5) !important">
+            <div class="card-header" style="text-align: center">
+                <h2>Đăng Ký</h2>
+            </div>
+            <div class="card-body">
+                <div class="flex_form_left"> <!-- thong tin tai khoan -->
+                    <h3>Tài khoản:</h3>
+                    <br>
+                    <div class="form-group" id="name_user">
+                        <label class="left_30" >Tên đầy đủ</label>
+                        <input type="text" class="form-control" name="fullName"  >
+                    </div>
+                    <div class="form-group ">
+                        <label class="left_30" >Tên người dùng</label>
+                        <input type="text" class="form-control" name="username" required="">
+                    </div>
+                    <div class="form-group ">
+                        <label class="left_30">Password</label>
+                        <input type="password" class="form-control" id='password' name="password" required="" >
+                    </div>
+                    <div class="form-group">
+                        <label class="left_30"  >Nhập lại Password</label>
+                        <input type="password" class="form-control" id="passwordConf" name="confirmPassword">
+                    </div>
+                    <div class="row">
+                        <div class="form-group inf col-6">
+                            <label>Ảnh đại diện</label>
+                            <input type="file" class="form-control btn-info btn-sm" style="" name="image">
+                            <img src="" alt="" id="image-preview" style="width: 100px">
+                            <input type="hidden" name="avatarUrl"  >
+                        </div>
+                        <div class="form-group inf col-6">
+                            <p>Vị trí của bạn</p>
+                            <a onclick="getLocation()" class="btn-outline-info btn-sm btn" style="letter-spacing: 3px;">Lấy vị trí</a>
+                            <p id="located"></p>
+                            <script>
+                                var x = document.getElementById("located");
+                                function getLocation() {
+                                    if (navigator.geolocation) {
+                                        navigator.geolocation.getCurrentPosition(showPosition);
+                                    } else {
+                                        x.innerHTML = "Geolocation không được hỗ trợ bởi trình duyệt này.";
+                                    }
+                                }
+                                function showPosition(position) {
+                                    x.innerHTML = "Vĩ độ: " + position.coords.latitude +
+                                        "<br>Kinh độ: " + position.coords.longitude;
+                                }
+                            </script>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="flex_form_right"> <!-- Thông tin cá nhân -->
+                    <h3>Thông tin cá nhân:</h3>
+                    <br>
+                    <div class="form-group ">
+                        <label class="left_30"  >Địa chỉ </label>
+                        <input type="text" class="form-control" name="location"  >
+                    </div>
+                    <div class="form-group ">
+                        <label class="left_30" >Tuổi </label>
+                        <input type="number" class="form-control" name="age" >
+                    </div>
+                    <div class="form-group ">
+                        <label class="left_30" >Số điện thoại</label>
+                        <input type="tel" class="form-control" name="phone">
+                    </div>
+                    <div class="form-group ">
+                        <label class="left_30">Email </label>
+                        <input type="email" class="form-control" name="email" >
+                    </div>
+                    <div class=" form-group card-footer" >
+                        <span><%=msg%></span>
+                        <input type="submit" value="Submit" class="btn btn-info btn-lg" >
+                        <input type="reset" value="Reset" class="btn btn-outline-danger btn sm">
+                    </div>
+                </div>
+            </div>
+
         </div>
     </form>
+</div>
+<footer class="py-3 bg-dark">
+    <div class="container">
+        <div class="row" style="color: white">
+            <div class="col-9">
+                <span>Trang web bán vé online tham dự cuộc thi DEV-20.</span>
+                <span>Bài dự thi của nhóm APOLLO.</span>
+            </div>
 
-    <script>
-        const cloudName = 'xuanhung2401';
-        const unsignedUploadPreset = 'phlw547y';
-        var img = document.querySelector('[name="image"]');
-        img.onchange = function () {
-            var file = this.files[0];
-            var url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+            <div class="col-3" style="border-left: 2px double honeydew">
+                <div class="row">
+                    <div class="col-md-5">
+                        Liên hệ:
+                    </div>
+                    <div class="col-md-7">
+                        <a href="#" style="color: white"><i class="fab fa-facebook"></i> Facebook</a>
+                        <br>
+                        <a href="#" style="color: white"><i class="fab fa-google"></i> Gmail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
 
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    var responseDataJson = JSON.parse(this.responseText);
-                    console.log(responseDataJson);
-                    var imageUrl = document.querySelector('input[name="avatarUrl"]');
-                    imageUrl.value = responseDataJson.public_id;
-                    document.getElementById('image-preview').src = responseDataJson.url;
-                }
-            }
-            xhr.open('POST', url, true);
-            var fd = new FormData();
-            fd.append('upload_preset', unsignedUploadPreset);
-            fd.append('tags', 'browser_upload');
-            fd.append('file', file);
-            xhr.send(fd);
+</footer>
+<script type="text/javascript">
+    var passWordField = document.getElementById('password')
+    var passWordConfirmField = document.getElementById('passwordConf')
+    var form = document.getElementById('login')
+    function validateMyForm(){
+        if(passWordField.value != passWordConfirmField.value){
+            alert("Mật khẩu không khớp!!!!!");
+        } else {
+            form.submit();
         }
-    </script>
+    }
+</script>
+<script>
+    var cloudName= "a123abc";
+    var unsignedUploadPreset="qbhmhxzq";
+    var img = document.querySelector('[name="image"]');
+
+    img.onchange = function () {
+        var file = this.files[0];
+        var url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var responseDataJson = JSON.parse(this.responseText);
+                console.log(responseDataJson);
+                var avatarUrl = document.querySelector('input[name="avatarUrl"]');
+                avatarUrl.value = responseDataJson.public_id;
+                document.getElementById('image-preview').src = responseDataJson.url;
+            }
+        }
+        xhr.open('POST', url, true);
+        var fd = new FormData();
+        fd.append('upload_preset', unsignedUploadPreset);
+        fd.append('tags', 'browser_upload');
+        fd.append('file', file);
+        xhr.send(fd);
+    }
+</script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -8,12 +8,13 @@ var authenticate = require('./routes/authentication');
 var permit = require('./routes/permission');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://root:abcD1234@cluster0-wuil3.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://root:bimat1996@cluster0-f0ixd.gcp.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true });
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var membersRouter = require('./routes/routeMembers');
-
+var eventsRouter= require('./routes/event');
+var orderRouter = require('./routes/order');
+var expressValidator = require('express-validator');
 var app = express();
 
 // view engine setup
@@ -24,7 +25,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(expressValidator());
 
 
 app.use(session({
@@ -34,22 +35,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(authenticate);
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/', indexRouter);
 app.use('/members', membersRouter);
-
+app.use('/event',eventsRouter);
+app.use('/order', orderRouter);
 app.use('/free', function (req, resp) {
-    console.log('Free space.');
     resp.send('Free space');
 });
 
 app.use('/user', permit('user', 'admin'), function (req, resp, next) {
-    console.log('Logged in user permission.');
     resp.send('Logged in user permission.' + req.loggedInMember.role);
 });
 
 app.use('/admin', permit('admin'), function (req, resp) {
-    console.log('Logged in admin permission.');
     resp.send('Logged in admin permission.' + req.loggedInMember.role);
 });
 // app.use('/admin', permit('admin'), function (req, resp) {
@@ -63,13 +61,8 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.render('notFound',{'ten':req.session.name});
 });
 
 module.exports = app;

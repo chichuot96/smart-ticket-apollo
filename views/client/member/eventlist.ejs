@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Smart Ticket</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <style media="screen">
+        .navbar{
+            opacity: 0.8;
+        }
+        form{
+            margin-top: 100px;
+        }
+        .container-fluid{
+            margin-top: 56px;
+        }
+        .nopadding{
+            padding: 0px !important;
+        }
+        #left{
+            background-color: rgb(41, 48, 68);
+            padding: 0px !important;
+            position: fixed;
+            height: 100%;
+        }
+        #profileOption li{
+            display: block;
+            width: 100%;
+            float: left;
+            margin-bottom: 50px;
+            font-size: 120%;
+        }
+
+        #profileOption li a{
+            color: white;
+            text-decoration: none;
+        }
+
+        #profileOption li a:hover{
+            color: rgb(201, 198, 198);
+        }
+
+        #profileOption i{
+            margin-right: 5%;
+        }
+
+        .marginTop{
+            margin-top: 20px;
+        }
+
+
+        #right{
+            margin-left: 33.33%;
+        }
+
+
+
+        @media only screen and (max-width: 768px) {
+            #left{
+                height: 80px;
+                position: relative;
+                text-align: center;
+                opacity: 0.9;
+            }
+            #profileOption li{
+                display: inline;
+                float: none;
+                width: 150px;
+                margin: 1.5em;
+            }
+            #left span{
+                display: none;
+            }
+            #right{
+                margin-left: 1em;
+            }
+            ul{
+                margin-top: 25px;
+            }
+        }
+
+
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Smart Ticket</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Gõ để tìm kiếm" name="keyword" aria-label="Search">
+                <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Tìm</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Các sự kiện
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="#">Gần bạn</a>
+                        <a class="dropdown-item" href="#">Bạn đã tham gia</a>
+                        <a class="dropdown-item" href="#">Có thể bạn hứng thú</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Phân loại
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="/event/typeEvent?type=Music">Hòa nhạc</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Film">Xem phim</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Exhibition">Triển lãm</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Seminar">Hội thảo</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Other">Khác ...</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Liên hệ</a>
+                </li>
+                <li class="nav-item">
+                    <%if(ten){%>
+                        <a class="nav-link dropdown-toggle btn btn-outline-info" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 3rem;color: white;padding:0.2rem">
+                            <img src="http://res.cloudinary.com/a123abc/image/upload/<%= pic%>" class="rounded-circle" style="width: 32px;height: 32px; margin:0" alt="">
+                            <%=ten%>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                            <a class="dropdown-item" href="/members/profile">Trang cá nhân</a>
+                            <a class="dropdown-item" href="/members/list">Vé đã mua</a>
+                            <a class="dropdown-item" href="/members/credlist">Sự kiện đã tạo</a>
+                            <a class="dropdown-item" href="/event/information">Tạo sự kiện</a>
+                            <a class="dropdown-item" href="/members/logout">Đăng xuất</a>
+                        </div>
+                    <%}else{%>
+                        <a href="/members/login" class="btn btn-info" role="button">Đăng nhập</a>
+                        <a href="/members/register" class="btn btn-outline-info btn-sm">Đăng ký</a>
+                    <%}%>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid nopadding" >
+    <div class="row">
+        <div class="col-md-4" id="left">
+            <div id="profileOption">
+                <ul>
+                    <li class="marginTop"><a href="/members/profile" ><i class="fas fa-user-circle"></i><span>Thông tin cá nhân</span> </a></li>
+                    <li><a href="/members/list" style="background-color: #17a2b8;padding: 0.5em; border-radius: 5px"><i class="fas fa-clipboard-check"></i> <span>Vé đã mua</span> </a></li>
+                    <li ><a href="/event/information"  ><i class="far fa-calendar-plus"></i><span>Tạo sự kiện</span></a></li>
+                    <li><a href="/members/credlist"><i class="fas fa-check-double"></i><span>Sự kiện đã tạo</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8" id="right">
+            <div class="card" style="margin: 3rem 1rem 3rem 0">
+                <div class="card-header" style="text-align: center">
+                    <h2>Vé đã mua</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <%if(list.length){for(var i = list.length-count; i< list.length;i++){%>
+                        <div class="col-4">
+                            <div class="card">
+                                <img src="http://res.cloudinary.com/a123abc/image/upload/<%= list[i].imageUrl%>" class="card-img-top" alt="">
+                                <div class="card-footer">
+                                    <span><%=list[i].name.substr(0,20)%>...</span>
+                                    <br>
+
+                                </div>
+                            </div>
+                        </div>
+                        <%}}else{%>
+                        <span>Bạn chưa tham dự sụ kiện nào, hãy <a href="/">tham dự ngay!</a></span>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

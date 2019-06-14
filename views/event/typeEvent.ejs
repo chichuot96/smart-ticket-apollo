@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Smart Ticket</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
+    <style media="screen">
+        body {
+            padding-top: 56px;
+        }
+
+        .eventname:link{
+            color: black;
+        }
+        .carousel-item {
+            height: 65vh;
+            min-height: 300px;
+            background: no-repeat center center scroll;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+        @media only screen and (max-width: 650px) {
+            button{
+                margin-right: 5%;
+            }
+            .nav-link{
+                margin-left: 0;
+            }
+            .col-sm-3{
+                width: 50%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Smart Ticket</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Gõ để tìm kiếm" aria-label="Search">
+                <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Tìm</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Các sự kiện
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="#">Gần bạn</a>
+                        <a class="dropdown-item" href="#">Bạn đã tham gia</a>
+                        <a class="dropdown-item" href="#">Có thể bạn hứng thú</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Phân loại
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="/event/typeEvent?type=Music">Hòa nhạc</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Film">Xem phim</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Exhibition">Triển lãm</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Seminar">Hội thảo</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Other">Khác ...</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Liên hệ</a>
+                </li>
+                <li class="nav-item">
+                    <%if(ten){%>
+                        <a class="nav-link dropdown-toggle btn btn-outline-info" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 3rem;color: white;padding:0.2rem">
+                            <img src="http://res.cloudinary.com/a123abc/image/upload/<%= pic%>" class="rounded-circle" style="width: 32px;height: 32px; margin:0" alt="">
+                            <%=ten%>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                            <a class="dropdown-item" href="/members/profile">Trang cá nhân</a>
+                            <a class="dropdown-item" href="/members/list">Vé đã mua</a>
+                            <a class="dropdown-item" href="/members/credlist">Sự kiện đã tạo</a>
+                            <a class="dropdown-item" href="/event/information">Tạo sự kiện</a>
+                            <a class="dropdown-item" href="/members/logout">Đăng xuất</a>
+                        </div>
+                    <%}else{%>
+                        <a href="/members/login" class="btn btn-info" role="button">Đăng nhập</a>
+                        <a href="/members/register" class="btn btn-outline-info btn-sm">Đăng ký</a>
+                    <%}%>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header style="text-align: center" data-aos="fade-up" data-aos-duration="2000" >
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 100%">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active" >
+                <a href="/event/detail/<%= listData[0]._id%>"><img src="http://res.cloudinary.com/a123abc/image/upload/<%= listData[0].imageUrl%>" alt="" style="width: 100%">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3><%= listData[0].name%></h3>
+                    </div>
+                </a>
+            </div>
+            <% for (var i = 1; i < 4&&i<listData.length; i++){ %>
+                <div class="carousel-item " >
+                    <a href="/event/detail/<%= listData[i]._id%>"><img src="http://res.cloudinary.com/a123abc/image/upload/<%= listData[i].imageUrl %>" style="width: 100%" alt="">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h3><%= listData[i].name%></h3>
+                        </div>
+                    </a>
+                </div>
+            <% } %>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</header>
+
+<div class="container">
+
+    <h1 class="my-4" style="text-align: center"><%if(typeEvent=='Music'){%>Hòa nhạc<%}else if(typeEvent=='Exhibition'){%>Triển Lãm<%}else if(typeEvent=='Concert'){%>Xem Phim<%}else if(typeEvent=='Seminar') {%>Hội thảo<%} else{%>Khác<%}%></h1>
+
+    <div class="row">
+        <% for (var i = 0; i < listData.length; i++){ if(i%2==0){%>
+        <div class="col-lg-6 mb-4" data-aos="fade-down-left" data-aos-duration="1500" >
+            <%} else {%>
+            <div class="col-lg-6 mb-4" data-aos="fade-down-right" data-aos-duration="1000" ><%}%>
+                <div class="card h-100" >
+                    <a href="/event/detail/<%= listData[i]._id%>"><img class="card-img-top" height="220px" src="http://res.cloudinary.com/a123abc/image/upload/<%= listData[i].imageUrl %>"></a>
+                    <div class="card-body" style="padding: 1.25rem 0 0.5rem 1.25rem">
+                        <div class="row">
+                            <h5 class="card-text" > <a href="/event/detail/<%= listData[i]._id%>" class="eventname"><%= listData[i].name.substr(0,40)%>...</a></h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9"><br><p style="font-size: x-small"><%=listData[i].location%></p></div>
+                            <div class="col-sm-3">
+                                <div class="row" style="text-align: center">
+                                    <div class="col-sm-7" style="background-color: #17a2b8; color: white;font-size: x-small;border: solid black 0.5px; border-bottom: none">Tháng <%= listData[i].timeStart.getMonth()+1%></div>
+                                </div>
+                                <div class="row" style="text-align: center">
+                                    <div class="col-sm-7" style="border: solid black 0.5px; border-bottom: solid gray 2.5px; border-top: none"><%= listData[i].timeStart.getDate()%></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/event/detail/<%= listData[i]._id%>" class="btn btn-info ">Xem thêm</a>
+                        <a href="#" class="btn btn-outline-success btn-sm" style="float: right">Đặt vé</a>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            <hr>
+        </div>
+        <div class="container" style="margin: auto; text-align: center">
+            <%
+            if(parseInt(page) > 1){
+            %>
+                <span>
+<a href="/home?page=<%= parseInt(page) - 1 %>&limit=<%= limit %>" class="btn btn-light">
+<i class="fas fa-angle-double-left"></i> <%= parseInt(page) - 1 %></a>
+</span>
+            <%
+            }
+            %>
+            <span class="btn btn-info" style="width: 3.25em; margin: 0 1em"> <%= page %> </span>
+            <%
+            if(parseInt(page) < parseInt(totalPage)){
+            %>
+                <span>
+<a href="/home?page=<%= parseInt(page) + 1 %>&limit=<%= limit %>" class="btn btn-light">
+<%= parseInt(page) + 1 %> <i class="fas fa-angle-double-right"></i></a>
+</span>
+            <%
+            }
+            %>
+            <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Đôi điều về chúng tôi</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium atque aut cumque dolorum eligendi eum excepturi itaque libero molestiae nam necessitatibus odio officiis quae quaerat quisquam, sequi sunt voluptatibus?</p>
+                <ul>
+                    <li>
+                        <strong>Hello</strong>
+                    </li>
+                    <li>dfsdfsd</li>
+                    <li>Font </li>
+                    <li> contact form with validation</li>
+                    <li>e elements for easy customization</li>
+                </ul>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, omnis doloremque non cum id reprehenderit, quisquam totam aspernatur tempora minima unde aliquid ea culpa sunt. Reiciendis quia dolorum ducimus unde.</p>
+            </div>
+            <div class="col-lg-6">
+                <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Call to Action Section -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+            </div>
+            <div class="col-md-4">
+                <a class="btn btn-lg btn-danger btn-block" href="/event/information">Tạo Sự Kiện</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Footer -->
+<footer class="py-3 bg-dark">
+    <div class="container">
+        <div class="row" style="color: white">
+            <div class="col-9">
+                <span>Trang web bán vé online tham dự cuộc thi DEV-20.</span>
+                <span>Bài dự thi của nhóm APOLLO.</span>
+            </div>
+
+            <div class="col-3" style="border-left: 2px double honeydew">
+                <div class="row">
+                    <div class="col-md-5">
+                        <a href="/#contact"></a>Liên hệ:
+                    </div>
+                    <div class="col-md-7">
+                        <a href="#" style="color: white"><i class="fab fa-facebook"></i> Facebook</a>
+                        <br>
+                        <a href="#" style="color: white"><i class="fab fa-google"></i> Gmail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+
+</footer>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script>
+    AOS.init();
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

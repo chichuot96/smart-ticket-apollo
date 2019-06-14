@@ -1,21 +1,335 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <%
-      if(username){
-    %>
-    <p>Hello <%= fullName%> - <%=username%> <img src="http://res.cloudinary.com/xuanhung2401/image/upload/c_pad,w_100,h_100/<%=avatarUrl%>" alt=""></p>
-    <p>(<a href="/members/logout">Logout</a>)</p>
-    <%
-      }
-    %>
-    <a href="/members/login">Login</a> &nbsp;
-    <a href="/members/register">Register</a>
-  </body>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Smart Ticket</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
+    <style media="screen">
+        body {
+            padding-top: 56px;
+        }
+
+
+        .eventname:link {
+            color: black;
+        }
+
+        .carousel-item {
+            height: 65vh;
+            min-height: 300px;
+            background: no-repeat center center scroll;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        @media only screen and (max-width: 650px) {
+            button {
+                margin-right: 5%;
+            }
+
+            .nav-link {
+                margin-left: 0;
+            }
+
+            .col-sm-3 {
+                width: 50%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Smart Ticket</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Gõ để tìm kiếm" name="keyword" value="<%= keyword %>" aria-label="Search">
+                <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Tìm</button>
+            </form>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Các sự kiện
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="#">Gần bạn</a>
+                        <a class="dropdown-item" href="#">Bạn đã tham gia</a>
+                        <a class="dropdown-item" href="/members/enjoy">Có thể bạn hứng thú</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Phân loại
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="/event/typeEvent?type=Music">Hòa nhạc</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Film">Xem phim</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Exhibition">Triển lãm</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Seminar">Hội thảo</a>
+                        <a class="dropdown-item" href="/event/typeEvent?type=Other">Khác ...</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Liên hệ</a>
+                </li>
+                <li class="nav-item">
+                    <% if(ten){ %>
+                        <a class="nav-link dropdown-toggle btn btn-outline-info" href="#" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false"
+                           style="margin-left: 3rem;color: white;padding:0.2rem">
+                            <img src="http://res.cloudinary.com/a123abc/image/upload/<%= pic %>" class="rounded-circle"
+                                 style="width: 32px;height: 32px; margin:0" alt="">
+                            <%= ten %>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                            <a class="dropdown-item" href="/members/profile">Trang cá nhân</a>
+                            <a class="dropdown-item" href="/members/list">Vé đã mua</a>
+                            <a class="dropdown-item" href="/members/credlist">Sự kiện đã tạo</a>
+                            <a class="dropdown-item" href="/event/information">Tạo sự kiện</a>
+                            <%if(role=='admin'){%>
+                                <a class="dropdown-item" href="/event/list">Danh sách sự kiện chờ</a>
+                                <%}%>
+                            <a class="dropdown-item" href="/members/logout">Đăng xuất</a>
+                        </div>
+                    <% }else{ %>
+                        <a href="/members/login" class="btn btn-info" role="button">Đăng nhập</a>
+                        <a href="/members/register" class="btn btn-outline-info btn-sm">Đăng ký</a>
+                    <% } %>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header style="text-align: center" data-aos="fade-up" data-aos-duration="2000">
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 100%">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <a href="/event/detail/<%= listData[0]._id %>"><img
+                            src="http://res.cloudinary.com/a123abc/image/upload/<%= listData[0].imageUrl %>" alt=""
+                            style="width: 100%">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3><%= listData[0].name %></h3>
+                    </div>
+                </a>
+            </div>
+            <% for (var i = 1; i < 4 && i < listData.length; i++){ %>
+                <div class="carousel-item ">
+                    <a href="/event/detail/<%= listData[i]._id %>"><img
+                                src="http://res.cloudinary.com/a123abc/image/upload/<%= listData[i].imageUrl %>"
+                                style="width: 100%" alt="">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h3><%= listData[i].name %></h3>
+                        </div>
+                    </a>
+                </div>
+            <% } %>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</header>
+
+<div class="container">
+
+    <h1 class="my-4" style="text-align: center">Các Sự Kiện Nổi Bật</h1>
+
+    <div class="row">
+        <% for (var i = 0; i < listData.length; i++){ if(i % 2 == 0){ %>
+        <div class="col-lg-6 mb-4" data-aos="fade-down-left" data-aos-duration="1500">
+            <% } else { %>
+            <div class="col-lg-6 mb-4" data-aos="fade-down-right" data-aos-duration="1000">
+                <% } %>
+                <div class="card h-100">
+                    <a href="/event/detail/<%= listData[i]._id %>"><img class="card-img-top" height="220px"
+                                                                        src="http://res.cloudinary.com/a123abc/image/upload/<%= listData[i].imageUrl %>"></a>
+                    <div class="card-body" style="padding: 1.25rem 0 0.5rem 1.25rem">
+                        <div class="row">
+                            <h5 class="card-text"><a href="/event/detail/<%= listData[i]._id %>"
+                                                     class="eventname"><%= listData[i].name.substr(0, 40) %>...</a></h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9"><br>
+                                <p style="font-size: x-small"><%= listData[i].location %></p></div>
+                            <div class="col-sm-3">
+                                <div class="row" style="text-align: center">
+                                    <div class="col-sm-7"
+                                         style="background-color: #17a2b8; color: white;font-size: x-small;border: solid black 0.5px; border-bottom: none">
+                                        Tháng <%= listData[i].timeStart.getMonth() + 1 %></div>
+                                </div>
+                                <div class="row" style="text-align: center">
+                                    <div class="col-sm-7"
+                                         style="border: solid black 0.5px; border-bottom: solid gray 2.5px; border-top: none"><%= listData[i].timeStart.getDate() %></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/event/detail/<%= listData[i]._id %>" class="btn btn-info ">Xem thêm</a>
+                        <a href="/event/booking/<%=listData[i]._id%>" class="btn btn-outline-success btn-sm" style="float: right">Đặt vé</a>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            <hr>
+        </div>
+        <div class="container" style="margin: auto; text-align: center">
+            <%
+            if(parseInt(page) > 1){
+            %>
+                <span>
+<a href="/home?page=<%= parseInt(page) - 1 %>&limit=<%= limit %>" class="btn btn-light">
+<i class="fas fa-angle-double-left"></i> <%= parseInt(page) - 1 %></a>
+</span>
+            <%
+            }
+            %>
+            <span class="btn btn-info" style="width: 3.25em; margin: 0 1em"> <%= page %> </span>
+            <%
+            if(parseInt(page) < parseInt(totalPage)){
+            %>
+                <span>
+<a href="/home?page=<%= parseInt(page) + 1 %>&limit=<%= limit %>" class="btn btn-light">
+<%= parseInt(page) + 1 %> <i class="fas fa-angle-double-right"></i></a>
+</span>
+            <%
+            }
+            %>
+            <hr>
+        </div>
+
+        <div class="row" id="contact">
+            <div class="col-lg-6">
+                <h2>Đôi điều về chúng tôi</h2>
+                <p>Chào mừng bạn đến với ATicket !
+                    ATicket là kênh kết nối hữu ích cho người tạo sự kiện và người tới tham dự.
+                    Hệ thống ATicket cuả chúng tôi luôn cố gắng phát triển và nâng cao trải nghiệm tới mọi đối tượng khách hàng. Hiểu rõ được nhu cầu của xã hội và mong muốn đóng góp cho cộng đồng những giá trị tốt nhất. ATicket tự hào là đơn vị uy tín cung cấp thông tin về các chương trình, sự kiện có bán vé gần khu vực của bạn và các địa bàn lân cận trên cả nước. Giúp người mua vé nắm bắt được đầy đủ thông tin của sự kiện và đặt mua vé một cách nhanh chóng chính là sứ mệnh của chúng tôi.
+                    Với ATicket, mọi sự kiện bạn đều có thể tham gia!</p>
+                <ul>
+                    <li>
+                        <strong>Các thành viên trong nhóm</strong>
+                    </li>
+                    <li>Lại Văn Đức</li>
+                    <li>Nguyễn Minh Chí</li>
+                    <li>Vũ Hoàng Trường Giang</li>
+                    <li>Lê Minh Quân</li>
+                    <li>Đỗ Huy Hoàng</li>
+                </ul>
+            </div>
+            <div class="col-lg-6" >
+                <img class="img-fluid rounded" style="background-color: #17a2b8; padding: 0.25em" src="https://res.cloudinary.com/a123abc/image/upload/v1560516971/68704C2B-0A5A-429A-9F18-47C095018CA5_irvikv.jpg" alt="">
+            </div>
+        </div>
+        <hr>
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <p>Bạn muốn tạo thu nhập cho bản thân? Bạn là 1 nhà tổ chức sự kiện muốn phân phối vé? Hãy tạo sự kiện và phân phối vé ngày trên kênh của chúng tôi.</p>
+            </div>
+            <div class="col-md-4">
+                <a class="btn btn-lg btn-danger btn-block" href="/event/information">Tạo Sự Kiện</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="py-3 bg-dark">
+    <div class="container">
+        <div class="row" style="color: white">
+            <div class="col-9">
+                <span>Trang web bán vé online tham dự cuộc thi DEV-20.</span>
+                <span>Bài dự thi của nhóm APOLLO.</span>
+            </div>
+
+            <div class="col-3" style="border-left: 2px double honeydew">
+                <div class="row">
+                    <div class="col-md-5">
+                        Liên hệ:
+                    </div>
+                    <div class="col-md-7">
+                        <a href="#" style="color: white"><i class="fab fa-facebook"></i> Facebook</a>
+                        <br>
+                        <a href="#" style="color: white"><i class="fab fa-google"></i> Gmail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+
+</footer>
+<script>
+    (function () {
+        let appCode = 'e4d2015bcae3d26239f4d7cc4c9313a8';
+        let ws_host = 'wss://bot.fpt.ai/ws/livechat'
+        let appCodeHash = window.location.hash.substr(1);
+        let objLiveChat = {
+            appCode: 'e4d2015bcae3d26239f4d7cc4c9313a8',
+            appName: 'Aticket',
+            thumb: ''
+        };
+        if (appCodeHash.length == 32) {
+            objLiveChat.appCode = appCodeHash;
+        }
+
+        var baseUrl = 'https://static.fpt.ai/v4/src';
+        var r = document.createElement("script");
+        r.src = baseUrl + "/livechat.js";
+        var c = document.getElementsByTagName("body")[0];
+        c.appendChild(r);
+        r.onload = function () {
+            new FPTAI_LiveChat(objLiveChat, baseUrl, ws_host);
+        };
+
+    })()
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+
 </html>

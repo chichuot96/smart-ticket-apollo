@@ -15,15 +15,32 @@ var MemberSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    location: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: Number,
+        required: true
+    },
+    phone: {
+        type: Number,
+        required: true
+    },
     salt: {
         type: String,
         trim: true
     },
     fullName: {
-        type: String
+        type: String,
+        required: true
     },
     avatarUrl: {
         type: String
+    },
+    email:{
+        type: String,
+        required: true
     },
     role: {
         type: String
