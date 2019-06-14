@@ -171,9 +171,9 @@
 
     <div class="row">
         <% for (var i = 0; i < listData.length; i++){ if(i % 2 == 0){ %>
-        <div class="col-lg-6 mb-4" data-aos="fade-down-left" data-aos-duration="1500">
+        <div class="col-lg-6 mb-4" data-aos="flip-left" data-aos-duration="800">
             <% } else { %>
-            <div class="col-lg-6 mb-4" data-aos="fade-down-right" data-aos-duration="1000">
+            <div class="col-lg-6 mb-4" data-aos="flip-right" data-aos-duration="800">
                 <% } %>
                 <div class="card h-100">
                     <a href="/event/detail/<%= listData[i]._id %>"><img class="card-img-top" height="220px"
