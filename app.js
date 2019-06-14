@@ -67,8 +67,6 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-var port = 8886;
+var port = process.env.PORT;
 
-app.listen(port, function () {
-    console.log('Server started at ' + port);
-})
+app.listen(port||8686)
