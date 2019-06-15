@@ -69,4 +69,4 @@ module.exports = app;
 
 var port = process.env.PORT;
 
-app.listen(port||8686)
+app.listen(port||8686);
