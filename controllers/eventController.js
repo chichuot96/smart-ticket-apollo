@@ -236,6 +236,18 @@ exports.home = function(req,resp){
 }
 
 
+exports.done = function(req, resp){
+    var rpdt = {
+        'mon' : req.session.money,
+        'num' : req.session.numtick,
+        'name' : req.session.nameEvent,
+        'ten' : req.session.fullName,
+        'pic' : req.session.avatarUrl,
+        'obj': req.body
+    };
+    resp.render('payment/cod', rpdt);
+}
+
 exports.processbooking = function(req,resp){
     if(req.session.fullName){
         req.session.money= req.body.payment;

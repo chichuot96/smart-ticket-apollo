@@ -26,6 +26,8 @@ router.get('/booking/:id', eventController.booking);
 
 router.post('/booking/:id',eventController.processbooking);
 
+router.post('/order/cod', eventController.done);
+
 
 
 module.exports = router;
